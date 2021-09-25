@@ -1,6 +1,4 @@
 import json
-import os
-import heapq
 import logging
 
 from flask import request, jsonify
@@ -48,7 +46,7 @@ def shortpath(grid):
   while current:
     if (m-1,n-1) in visited:
       break
-    p1,p2 = heapq.heappop(current)
+    p1,p2 = current.pop()
     for i, j in [(-1,0),(1,0),(0,-1),(0,1)]:
       newi,newj = p1+i,p2+j
       if 0<=newi<m and 0<=newj<n and (newi,newj) not in visited:
@@ -57,7 +55,7 @@ def shortpath(grid):
     visited.add((p1,p2))
   return min_cost[m-1][n-1]
 
-#files = [f for f in os.listdir() if f.endswith(".json")]
+
 @app.route('/stock-hunter', methods=['POST'])
 def evaluateStockHunter():
   sol = []
