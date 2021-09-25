@@ -21,7 +21,7 @@ def find_healthy(grid):
   return para, tuple(healthy)
 
 def parasite_A(grid, interest, para, healthy):
-  t_time = -1
+
   to_visit = set(healthy)
   cur = [[0,para[0],para[1]]]
   m,n = len(grid), len(grid[0])
@@ -41,10 +41,11 @@ def parasite_A(grid, interest, para, healthy):
         dist[newx][newy] = d+1
         heapq.heappush(cur, [d+1, newx, newy])
         to_visit.discard((newx,newy))
-        t_time = max(t_time, d+1)
     visited.add((x,y))
-  if to_visit:
-    t_time = -1
+  t_time = -1
+  if not to_visit:
+    for i, j in healthy:
+      t_time = max(t_time,dist[i][j])
   individual = dict()
   for s in interest:
     s1, s2 = [int(x) for x in s.split(",")]
@@ -56,7 +57,7 @@ def parasite_A(grid, interest, para, healthy):
 
 # Basically the same code, but with different edge weight
 def parasite_B(grid, para, healthy):
-  t_time = -1
+
   to_visit = set(healthy)
   cur = [[0,para[0],para[1]]]
   m,n = len(grid), len(grid[0])
@@ -76,10 +77,11 @@ def parasite_B(grid, para, healthy):
         dist[newx][newy] = d+1
         heapq.heappush(cur, [d+1, newx, newy])
         to_visit.discard((newx,newy))
-        t_time = max(t_time, d+1)
     visited.add((x,y))
-  if to_visit:
-    t_time = -1
+  t_time = -1
+  if not to_visit:
+    for i, j in healthy:
+      t_time = max(t_time,dist[i][j])
   return t_time
 
 
@@ -101,7 +103,7 @@ def parasite_X(grid, para, healthy):
       newx,newy = x+i, y+j
       if (0<=newx<m) and (0<=newy<n) and ((newx,newy) not in visited) and (dist[newx][newy]>d):
         newd = abs(grid[newx][newy]-1)+d
-        dist[newx][newy] = newd
+        dist[newx][newy] = min(dist[newx][newy],newd)
         heapq.heappush(cur, [newd, newx, newy])
         to_visit.discard((newx,newy))
     visited.add((x,y))
