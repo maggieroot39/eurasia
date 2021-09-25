@@ -9,8 +9,7 @@ from codeitsuisse import app
 
 logger = logging.getLogger(__name__)
 
-def find_healthy(grid):
-  m,n = len(grid), len(grid[0])
+def find_healthy(grid,m,n):
   healthy = set()
   for i in range(m):
     for j in range(n):
@@ -20,11 +19,10 @@ def find_healthy(grid):
         healthy.add((i,j))
   return para, tuple(healthy)
 
-def parasite_A(grid, interest, para, healthy):
+def parasite_A(grid, interest, para, healthy,m,n):
 
   to_visit = set(healthy)
   cur = [[0,para[0],para[1]]]
-  m,n = len(grid), len(grid[0])
   visited = set()
   dist = [[float('inf')]*n for _ in range(m)]
   dist[para[0]][para[1]] = 0
@@ -56,11 +54,10 @@ def parasite_A(grid, interest, para, healthy):
   return individual, t_time
 
 # Basically the same code, but with different edge weight
-def parasite_B(grid, para, healthy):
+def parasite_B(grid, para, healthy,m,n):
 
   to_visit = set(healthy)
   cur = [[0,para[0],para[1]]]
-  m,n = len(grid), len(grid[0])
   visited = set()
   dist = [[float('inf')]*n for _ in range(m)]
   dist[para[0]][para[1]] = 0
@@ -85,10 +82,9 @@ def parasite_B(grid, para, healthy):
   return t_time
 
 
-def parasite_X(grid, para, healthy):
+def parasite_X(grid, para, healthy,m,n):
   to_visit = set(healthy)
   cur = [[0,para[0],para[1]]]
-  m,n = len(grid), len(grid[0])
   visited = set()
   dist = [[float('inf')]*n for _ in range(m)]
   dist[para[0]][para[1]] = 0
@@ -121,11 +117,12 @@ def evaluateParasite():
 
   for data in data_full:
     room, grid, interest = data["room"], data["grid"], data["interestedIndividuals"]
-    para, healthy = find_healthy(grid)
-    p1, p2 = parasite_A(grid, interest, para, healthy)
-    p3 = parasite_B(grid, para, healthy)
+    m,n = len(grid), len(grid[0])
+    para, healthy = find_healthy(grid,m,n)
+    p1, p2 = parasite_A(grid, interest, para, healthy,m,n)
+    p3 = parasite_B(grid, para, healthy,m,n)
     if p2 == -1:
-      p4 = parasite_X(grid, para, healthy)
+      p4 = parasite_X(grid, para, healthy,m,n)
     else:
       p4 = 0
     sol.append({"room":room, "p1":p1, "p2":p2, "p3":p3, "p4":p4})
