@@ -48,7 +48,7 @@ def parasite_A(grid, interest, para, healthy):
   individual = dict()
   for s in interest:
     s1, s2 = [int(x) for x in s.split(",")]
-    if dist[s1][s2] == float('inf'):
+    if (dist[s1][s2] == float('inf')) or (grid[s1][s2] != 1):
       individual[s] = -1
     else:
       individual[s] = dist[s1][s2]
