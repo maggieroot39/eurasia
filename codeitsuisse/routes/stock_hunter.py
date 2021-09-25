@@ -58,8 +58,8 @@ def shortpath(grid):
   return min_cost[m-1][n-1]
 
 #files = [f for f in os.listdir() if f.endswith(".json")]
-@app.route('/stock_hunter', methods=['POST'])
-def main():
+@app.route('/stock-hunter', methods=['POST'])
+def evaluateStockHunter():
   sol = []
   data_full = request.get_json()
   logging.info("data sent for evaluation {}".format(data_full))
