@@ -1,13 +1,13 @@
 import json
 import os
 import heapq
-import logging
+#import logging
 
 from flask import request, jsonify
 
 from codeitsuisse import app
 
-logger = logging.getLogger(__name__)
+#logger = logging.getLogger(__name__)
 
 def find_healthy(grid,m,n):
   healthy = set()
@@ -98,9 +98,8 @@ def parasite_X(grid, para, healthy,m,n):
     for i,j in moves:
       newx,newy = x+i, y+j
       if (0<=newx<m) and (0<=newy<n) and ((newx,newy) not in visited) and (dist[newx][newy]>d):
-        newd = abs(grid[newx][newy]-1)+d
-        dist[newx][newy] = min(dist[newx][newy],newd)
-        heapq.heappush(cur, [newd, newx, newy])
+        dist[newx][newy] = min(dist[newx][newy],abs(grid[newx][newy]-1)+d)
+        heapq.heappush(cur, [dist[newx][newy], newx, newy])
         to_visit.discard((newx,newy))
     visited.add((x,y))
   energy = 0
@@ -113,7 +112,7 @@ def parasite_X(grid, para, healthy,m,n):
 def evaluateParasite():
   sol = []
   data_full = request.get_json()
-  logging.info("data sent for evaluation {}".format(data_full))
+#  logging.info("data sent for evaluation {}".format(data_full))
 
   for data in data_full:
     room, grid, interest = data["room"], data["grid"], data["interestedIndividuals"]
@@ -126,5 +125,5 @@ def evaluateParasite():
     else:
       p4 = 0
     sol.append({"room":room, "p1":p1, "p2":p2, "p3":p3, "p4":p4})
-  logging.info("My result :{}".format(sol))
+#  logging.info("My result :{}".format(sol))
   return json.dumps(sol)
