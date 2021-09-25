@@ -84,7 +84,6 @@ def parasite_B(grid, para, healthy):
 
 
 def parasite_X(grid, para, healthy):
-  energy = 0
   to_visit = set(healthy)
   cur = [[0,para[0],para[1]]]
   m,n = len(grid), len(grid[0])
@@ -107,7 +106,9 @@ def parasite_X(grid, para, healthy):
         to_visit.discard((newx,newy))
         energy = max(energy, newd)
     visited.add((x,y))
-
+  energy = 0
+  for i,j in healthy:
+    energy = max(energy, dist[i][j])
   return energy
 
 
