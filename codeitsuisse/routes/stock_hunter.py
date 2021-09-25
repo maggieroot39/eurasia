@@ -1,6 +1,6 @@
 import json
 import logging
-import collections
+import heapq
 
 from flask import request, jsonify
 
@@ -35,22 +35,23 @@ def gridMap(data):
       grid[i][j] = risk_dict[grid[i][j]%3]
   return grid
 
+# Basically a dijkstra shortest path
 def shortpath(grid):
   cost_dict = {"L":3, "M":2, "S":1}
   m,n = len(grid), len(grid[0])
   min_cost = [[float('inf')]*n for _ in range(m)]
   min_cost[0][0] = 0
-  current = collections.deque([(0,0)])
+  current = [(0,0,0)] #use heap to find current lowest distance node
   visited = set()
   while current:
-    p1,p2 = current.popleft()
+    d,p1,p2 = heapq.heappop(current)
     if (p1,p2) in visited:
       continue
     for i, j in [(-1,0),(1,0),(0,-1),(0,1)]:
       newi,newj = p1+i,p2+j
       if (0<=newi<m) and (0<=newj<n) and ((newi,newj) not in visited):
         min_cost[newi][newj] = min(min_cost[newi][newj], min_cost[p1][p2]+cost_dict[grid[newi][newj]])
-        current.append((newi,newj))
+        heapq.heappush(current,(min_cost[newi][newj],newi,newj))
     visited.add((p1,p2))
   return min_cost[m-1][n-1]
 
