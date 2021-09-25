@@ -104,7 +104,6 @@ def parasite_X(grid, para, healthy):
         dist[newx][newy] = newd
         heapq.heappush(cur, [newd, newx, newy])
         to_visit.discard((newx,newy))
-        energy = max(energy, newd)
     visited.add((x,y))
   energy = 0
   for i,j in healthy:
