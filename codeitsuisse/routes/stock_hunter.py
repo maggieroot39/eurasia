@@ -44,8 +44,8 @@ def shortpath(grid):
   current = [(0,0)]
   visited = set()
   while current:
-    if (m-1,n-1) in visited:
-      break
+#    if (m-1,n-1) in visited:
+#      break
     p1,p2 = current.pop()
     for i, j in [(-1,0),(1,0),(0,-1),(0,1)]:
       newi,newj = p1+i,p2+j
