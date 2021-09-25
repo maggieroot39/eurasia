@@ -39,7 +39,6 @@ def evaluateStockHunter():
     for i in range(y):
       for j in range(x):
         grid[i][j] = risk_dict[grid[i][j]%3]
-    print(grid)
     return grid
 
   # Basically a dijkstra shortest path
@@ -69,7 +68,7 @@ def evaluateStockHunter():
     grid = gridMap(data)
     min_cost = shortpath(grid)
     sol.append({"gridMap":grid,"minimumCost":min_cost})
-#  logging.info("My result :{}".format(sol))
+  logging.info("My result :{}".format(sol))
   return json.dumps(sol)
 
 #if __name__ == "__main__":
