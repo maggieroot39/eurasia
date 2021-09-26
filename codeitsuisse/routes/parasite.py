@@ -120,10 +120,7 @@ def evaluateParasite():
     para, healthy = find_healthy(grid,m,n)
     p1, p2 = parasite_A(grid, interest, para, healthy,m,n)
     p3 = parasite_B(grid, para, healthy,m,n)
-    if p2 == -1:
-      p4 = parasite_X(grid, para, healthy,m,n)
-    else:
-      p4 = 0
+    p4 = parasite_X(grid, para, healthy,m,n)
     sol.append({"room":room, "p1":p1, "p2":p2, "p3":p3, "p4":p4})
 #  logging.info("My result :{}".format(sol))
   return json.dumps(sol)
